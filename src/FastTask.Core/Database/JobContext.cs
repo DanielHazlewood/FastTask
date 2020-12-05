@@ -26,6 +26,5 @@ namespace FastTask.Core.Database
         {
             return _collection;
         }
-        
     }
 }

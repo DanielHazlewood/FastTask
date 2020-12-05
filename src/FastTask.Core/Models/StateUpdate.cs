@@ -1,3 +1,5 @@
+using System;
+
 namespace FastTask.Core.Models
 {
     public class StateUpdate
@@ -10,5 +12,18 @@ namespace FastTask.Core.Models
         /// A description of the state
         /// </summary>
         public string Description { get; set; }
+
+        public DateTime TimeStamp { get; set; } = DateTime.UtcNow;
+        public StateUpdate()
+        {
+            
+        }
+
+        public StateUpdate(JobState state, string description = "")
+        {
+            State = state;
+            Description = description;
+        }
+        
     }
 }

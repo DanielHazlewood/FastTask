@@ -29,11 +29,11 @@ namespace FastTask.Core.Models
         /// A C# action serialized to a string. Will run when it is processed. 
         /// </summary>
         [BsonRepresentation(BsonType.Array)]
-        public StateUpdate[] StateUpdates { get; set; }
+        public List<StateUpdate> StateUpdates { get; set; } = new List<StateUpdate>();
         /// <summary>
         /// An array of filters that can be used for finding jobs. e.g can block all jobs that match a specified field
         /// </summary>
         [BsonRepresentation(BsonType.Array)]
-        public string[] Filters { get; set; }
+        public List<string> Filters { get; set; } = new List<string>();
     }
 }
