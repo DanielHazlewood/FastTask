@@ -17,10 +17,11 @@ namespace FastTask.Core
         
         public static async Task<bool> Schedule(Expression<Action> action, DateTime scheduledTime, string name)
         {
-            var job = new JobDb();
-            job.Name = name;
+            var job = new JobDb {Name = name,};
+            job.Action = ExpressionHelper.ToString(action);
             job.StateUpdates.Add(new StateUpdate(JobState.SCHEDULED, ""));
-            return false;
+            await _jobContext.GetCollection().InsertOneAsync(job);
+            return true;
         }
         
     }

@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Options;
 
 namespace FastTask.Core.Models
 {
-    public class JobDb
+    public sealed class JobDb
     {
         
         /// <summary>
@@ -17,6 +17,11 @@ namespace FastTask.Core.Models
         /// Name of the job
         /// </summary>
         public string Name { get; set; }
+        
+        /// <summary>
+        /// The action to perform
+        /// </summary>
+        public string Action { get; set; }
         /// <summary>
         /// A mongodb lock, used with FindOneAndUpdate to create an atomic lock
         /// </summary>
@@ -35,5 +40,11 @@ namespace FastTask.Core.Models
         /// </summary>
         [BsonRepresentation(BsonType.Array)]
         public List<string> Filters { get; set; } = new List<string>();
+
+        public JobDb()
+        {
+            
+        }
+        
     }
 }
