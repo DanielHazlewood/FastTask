@@ -8,19 +8,24 @@ namespace FastTask.Core.Database
     {
         private IMongoDatabase _mongoDatabase;
         private IMongoClient _mongoClient;
-        private IMongoCollection<JobDb> _collecion;
+        private IMongoCollection<JobDb> _collection;
         private ILogger<JobContext> _logger = LogFactory.GetLog<JobContext>();
         public JobContext(string connectionUrl, string databaseName)
         {
             var settings = MongoClientSettings.FromConnectionString(connectionUrl);
             _mongoClient = new MongoClient(connectionUrl);
             _mongoDatabase = _mongoClient.GetDatabase(databaseName);
-            _collecion = _mongoDatabase.GetCollection<JobDb>("jobs");
+            _collection = _mongoDatabase.GetCollection<JobDb>("jobs");
             var jobIndexKeys = Builders<JobDb>.IndexKeys;
             var indexKeysDefinition = new CreateIndexModel<JobDb>(jobIndexKeys.Ascending(_ => _.LastFetchedTime).Descending(_ => _.IsLocked));
-            _collecion.Indexes.CreateOne(indexKeysDefinition);
+            _collection.Indexes.CreateOne(indexKeysDefinition);
             
         }
 
+        public IMongoCollection<JobDb> GetCollection()
+        {
+            return _collection;
+        }
+        
     }
 }
