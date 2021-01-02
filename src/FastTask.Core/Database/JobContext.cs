@@ -9,7 +9,7 @@ namespace FastTask.Core.Database
         private IMongoDatabase _mongoDatabase;
         private IMongoClient _mongoClient;
         private IMongoCollection<JobDb> _collection;
-        private ILogger<JobContext> _logger = LogFactory.GetLog<JobContext>();
+        private ILogger _logger = LogFactory.GetLog<JobContext>();
         public JobContext(string connectionUrl, string databaseName)
         {
             var settings = MongoClientSettings.FromConnectionString(connectionUrl);
@@ -17,7 +17,7 @@ namespace FastTask.Core.Database
             _mongoDatabase = _mongoClient.GetDatabase(databaseName);
             _collection = _mongoDatabase.GetCollection<JobDb>("jobs");
             var jobIndexKeys = Builders<JobDb>.IndexKeys;
-            var indexKeysDefinition = new CreateIndexModel<JobDb>(jobIndexKeys.Ascending(_ => _.LastFetchedTime).Descending(_ => _.IsLocked));
+            var indexKeysDefinition = new CreateIndexModel<JobDb>(jobIndexKeys.Ascending(_ => _.State).Ascending(_ => _.IsLocked).Ascending(_ => _.ProcessScore));
             _collection.Indexes.CreateOne(indexKeysDefinition);
             
         }

@@ -14,10 +14,17 @@ namespace FastTask.Core.Models
         [BsonId]
         public ObjectId Id { get; set; }
         /// <summary>
+        /// Current state of the job
+        /// </summary>
+        public JobState State { get; set; }
+        /// <summary>
         /// Name of the job
         /// </summary>
         public string Name { get; set; }
-        
+        /// <summary>
+        /// The action to perform
+        /// </summary>
+        public long ProcessScore { get; set; }
         /// <summary>
         /// The action to perform
         /// </summary>
@@ -33,12 +40,10 @@ namespace FastTask.Core.Models
         /// <summary>
         /// A C# action serialized to a string. Will run when it is processed. 
         /// </summary>
-        [BsonRepresentation(BsonType.Array)]
         public List<StateUpdate> StateUpdates { get; set; } = new List<StateUpdate>();
         /// <summary>
         /// An array of filters that can be used for finding jobs. e.g can block all jobs that match a specified field
         /// </summary>
-        [BsonRepresentation(BsonType.Array)]
         public List<string> Filters { get; set; } = new List<string>();
 
         public JobDb()
